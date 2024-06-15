@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useSignUp } from "@clerk/clerk-expo";
-import { Link } from "expo-router";
+import { useOAuth, useSignUp } from "@clerk/clerk-expo";
+import { Link, router } from "expo-router";
 
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -32,6 +32,7 @@ export default function SignUpScreen() {
 
       // change the UI to our pending section.
       setPendingVerification(true);
+      router.push("/home");
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2));
     }
@@ -53,6 +54,44 @@ export default function SignUpScreen() {
       console.error(JSON.stringify(err, null, 2));
     }
   };
+
+  const googleOAuth = useOAuth({
+    strategy: "oauth_google",
+  });
+
+  const facebookOAuth = useOAuth({
+    strategy: "oauth_facebook",
+  });
+
+  const onGooglePress = React.useCallback(async (): Promise<void> => {
+    try {
+      const { createdSessionId } = await googleOAuth.startOAuthFlow();
+
+      if (createdSessionId && setActive) {
+        setActive({ session: createdSessionId });
+        router.push("/home");
+      } else {
+        // Use signIn or signUp for next steps such as MFA
+      }
+    } catch (err) {
+      console.error("OAuth error", err);
+    }
+  }, [googleOAuth, setActive]);
+
+  const onFacebookPress = React.useCallback(async (): Promise<void> => {
+    try {
+      const { createdSessionId } = await facebookOAuth.startOAuthFlow();
+
+      if (createdSessionId && setActive) {
+        setActive({ session: createdSessionId });
+        router.push("/home");
+      } else {
+        // Use signIn or signUp for next steps such as MFA
+      }
+    } catch (err) {
+      console.error("OAuth error", err);
+    }
+  }, [facebookOAuth, setActive]);
 
   return (
     <View>
@@ -95,6 +134,12 @@ export default function SignUpScreen() {
 
           <TouchableOpacity onPress={onSignUpPress}>
             <Text>Sign up</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onGooglePress}>
+            <Text>Sign up with Google</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onFacebookPress}>
+            <Text>Sign up with Facebook</Text>
           </TouchableOpacity>
           <View className="flex-row items-center gap-2">
             <Text>Already have an account? </Text>

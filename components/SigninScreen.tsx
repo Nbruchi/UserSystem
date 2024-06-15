@@ -3,7 +3,7 @@ import { Button, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useSignIn, useOAuth } from "@clerk/clerk-expo"; // Combined imports
 import { useWarmUpBrowser } from "@/hooks/useWarmUpBrowser";
 import * as WebBrowser from "expo-web-browser";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -26,6 +26,7 @@ export default function SignInScreen() {
       // This is an important step,
       // This indicates the user is signed in
       await setActive({ session: completeSignIn.createdSessionId });
+      router.push("/home");
     } catch (err: any) {
       console.log(err);
     }
@@ -45,6 +46,7 @@ export default function SignInScreen() {
 
       if (createdSessionId && setActive) {
         setActive({ session: createdSessionId });
+        router.push("/home");
       } else {
         // Use signIn or signUp for next steps such as MFA
       }
@@ -59,6 +61,7 @@ export default function SignInScreen() {
 
       if (createdSessionId && setActive) {
         setActive({ session: createdSessionId });
+        router.push("/home");
       } else {
         // Use signIn or signUp for next steps such as MFA
       }
@@ -91,8 +94,8 @@ export default function SignInScreen() {
         <Text>Sign in</Text>
       </TouchableOpacity>
       <View className="flex-row items-center gap-2">
-        <Text>Already have an account? </Text>
-        <Link href="/sign-in">Login</Link>
+        <Text>Don't have an account? </Text>
+        <Link href="/sign-up">Register here</Link>
       </View>
       <Button title="Sign in with Google" onPress={onGooglePress} />
       <Button title="Sign in with Facebook" onPress={onFacebookPress} />
