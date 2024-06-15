@@ -2,6 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { StatusBar } from "expo-status-bar";
 
 const TabsLayout = () => {
   return (
@@ -26,6 +27,7 @@ const TabsLayout = () => {
           ),
         }}
       />
+      <StatusBar style="light" />
     </Tabs>
   );
 };

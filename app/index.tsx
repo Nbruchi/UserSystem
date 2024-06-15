@@ -1,17 +1,18 @@
+import React from "react";
 import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Index() {
+const LandingPage = () => {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Link href="/home">Go home</Link>
-    </View>
+    <SafeAreaView className="w-full h-full p-4">
+      <ScrollView className="w-full h-full flex items-center justify-center flex-col">
+        <Text className="text-3xl">Welcome home</Text>
+        <Link href="/sign-in">Register account</Link>
+        <Link href="/home">Go home</Link>
+      </ScrollView>
+    </SafeAreaView>
   );
-}
+};
+
+export default LandingPage;

@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
-import SignInScreen from "@/components/SigninScreen";
+import { StatusBar } from "expo-status-bar";
 
 const tokenCache = {
   async getToken(key: string) {
@@ -32,8 +32,11 @@ export default function RootLayout() {
         </Stack>
       </SignedIn>
       <SignedOut>
-        <SignInScreen />
+        <Stack>
+          <Stack.Screen name="(auth)" />
+        </Stack>
       </SignedOut>
+      <StatusBar style="light" />
     </ClerkProvider>
   );
 }
