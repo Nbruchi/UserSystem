@@ -42,7 +42,7 @@ export default function RootLayout() {
 
   return (
     <ClerkProvider
-      publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY || ""}
+      publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY as string}
       tokenCache={tokenCache}
     >
       <SignedIn>
@@ -51,8 +51,9 @@ export default function RootLayout() {
         </Stack>
       </SignedIn>
       <SignedOut>
-        <Stack>
+        <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(auth)" />
+          <Stack.Screen name="index" />
         </Stack>
       </SignedOut>
       <StatusBar style="light" />

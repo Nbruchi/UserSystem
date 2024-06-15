@@ -1,9 +1,18 @@
 import React from "react";
-import { Button, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useSignIn, useOAuth } from "@clerk/clerk-expo"; // Combined imports
+import {
+  Button,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useSignIn, useOAuth } from "@clerk/clerk-expo";
+import {FontAwesome5} from "@expo/vector-icons"
 import { useWarmUpBrowser } from "@/hooks/useWarmUpBrowser";
 import * as WebBrowser from "expo-web-browser";
 import { Link, router } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -71,34 +80,46 @@ export default function SignInScreen() {
   }, [facebookOAuth, setActive]);
 
   return (
-    <View>
-      <View>
-        <TextInput
-          autoCapitalize="none"
-          value={emailAddress}
-          placeholder="Email..."
-          onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
-        />
-      </View>
+    <SafeAreaView className="w-full h-screen p-4">
+      <ScrollView className="w-full">
+        <View className="flex-col items-center justify-center w-full min-h-[90vh]">
+          <Text>Register account</Text>
+          <View>
+            <TextInput
+              autoCapitalize="none"
+              value={emailAddress}
+              placeholder="Email..."
+              onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
+            />
+          </View>
 
-      <View>
-        <TextInput
-          value={password}
-          placeholder="Password..."
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-        />
-      </View>
+          <View>
+            <TextInput
+              value={password}
+              placeholder="Password..."
+              secureTextEntry={true}
+              onChangeText={(password) => setPassword(password)}
+            />
+          </View>
 
-      <TouchableOpacity onPress={onSignInPress}>
-        <Text>Sign in</Text>
-      </TouchableOpacity>
-      <View className="flex-row items-center gap-2">
-        <Text>Don't have an account? </Text>
-        <Link href="/sign-up">Register here</Link>
-      </View>
-      <Button title="Sign in with Google" onPress={onGooglePress} />
-      <Button title="Sign in with Facebook" onPress={onFacebookPress} />
-    </View>
+          <TouchableOpacity onPress={onSignInPress}>
+            <Text>Sign in</Text>
+          </TouchableOpacity>
+          <View className="flex-row items-center gap-2">
+            <Text>Don't have an account? </Text>
+            <Link href="/sign-up">Register here</Link>
+          </View>
+          <Button title="Sign in with Google" onPress={onGooglePress} />
+          <Button title="Sign in with Facebook" onPress={onFacebookPress} />
+          <TouchableOpacity>
+            <Text>Sign in with Google</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text>Sign in with Facebook</Text>
+            <FontAwesome5 name="facebook" size={24} color="blue" />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
