@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useOAuth, useSignUp } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -94,7 +95,12 @@ export default function SignUpScreen() {
   }, [facebookOAuth, setActive]);
 
   return (
-    <View>
+    <SafeAreaView className="w-full h-screen">
+      <ScrollView className="w-full">
+        <View className="w-full flex-row items-center justify-center">
+          <Text className="font-bold text-blue-400 text-center">Register your account</Text>
+        </View>
+      <View>
       {!pendingVerification && (
         <View>
           <View>
@@ -162,5 +168,9 @@ export default function SignUpScreen() {
         </View>
       )}
     </View>
+      </ScrollView>
+ 
+    </SafeAreaView>
+   
   );
 }
